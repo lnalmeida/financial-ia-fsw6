@@ -8,6 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: finance-ai-fsw6-db
+      TZ: America/Sao_Paulo
     ports:
       - "5432:5432"
     volumes:

@@ -11,7 +11,7 @@ export const TRANSACTION_CATEGORY_LABELS = {
   HEALTH: "Saúde",
   CHURCH: "Igreja",
   HOUSING: "Moradia",
-  OTHER: "Outros",
+  OTHERS: "Outros",
   SALARY: "Salário",
   TRANSPORTATION: "Transporte",
   UTILITY: "Utilidades",
@@ -23,6 +23,7 @@ export const TRANSACTION_PAYMENT_METHOD_LABELS = {
   CASH: "Dinheiro",
   CREDIT_CARD: "Cartão de Crédito",
   DEBIT_CARD: "Cartão de Débito",
+  BITCOIN: "Bitcoin",
   OTHER: "Outros",
   PIX: "Pix",
 };
@@ -68,6 +69,10 @@ export const TRANSACTION_PAYMENT_METHOD_OPTIONS = [
       TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.DEBIT_CARD],
   },
   {
+    value: TransactionPaymentMethod.BITCOIN,
+    label: TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.BITCOIN],
+  },
+  {
     value: TransactionPaymentMethod.OTHER,
     label: TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.OTHER],
   },
@@ -99,8 +104,8 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HOUSING],
   },
   {
-    value: TransactionCategory.OTHER,
-    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
+    value: TransactionCategory.OTHERS,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHERS],
   },
   {
     value: TransactionCategory.SALARY,
