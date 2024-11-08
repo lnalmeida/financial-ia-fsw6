@@ -1,13 +1,14 @@
 "use client";
 
 import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import {
   TRANSACTION_CATEGORY_LABELS,
   TRANSACTION_PAYMENT_METHOD_LABELS,
 } from "@/app/_constants/transactions";
 import { Transaction, TransactionType } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { CircleIcon } from "lucide-react";
+import { CircleIcon, PencilIcon, Trash2Icon } from "lucide-react";
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -40,7 +41,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
           </Badge>
         );
       return (
-        <Badge className="bg-blue hover:bg-blue bg-opacity-10 font-bold text-blue-400">
+        <Badge className="hover:bg-blue bg-blue-400 bg-opacity-15 font-bold text-blue-400">
           <CircleIcon className="mr-2 fill-blue-400" size={10} />
           Doação
         </Badge>
@@ -63,7 +64,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "date",
     header: "Data",
     cell: ({ row: { original: transaction } }) =>
-      transaction.date.toLocaleDateString("pt-BR", {
+      new Date(transaction.date).toLocaleDateString("pt-BR", {
         day: "2-digit",
         month: "long",
         year: "numeric",
@@ -72,11 +73,36 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "amount",
     header: "Valor",
+    cell: ({ row: { original: transaction } }) =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(Number(transaction.amount)),
   },
 
   //coluna para os botões
   {
     accessorKey: "actions",
-    header: "",
+    header: "Ações",
+    cell: () => (
+      <div>
+        <Button
+          title="Editar"
+          variant="ghost"
+          size="icon"
+          className="hover: group bg-transparent"
+        >
+          <PencilIcon className="transition-colors group-hover:text-blue-400" />
+        </Button>
+        <Button
+          title="Excluir"
+          variant="ghost"
+          size="icon"
+          className="hover: group bg-transparent"
+        >
+          <Trash2Icon className="group-hover:text-danger transition-colors" />
+        </Button>
+      </div>
+    ),
   },
 ];
