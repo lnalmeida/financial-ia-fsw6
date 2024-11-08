@@ -11,7 +11,7 @@ export default async function Home() {
     redirect("/login");
   }
   return (
-    <div className="flex h-full w-screen items-center justify-center py-5">
+         <div className="flex h-full w-screen items-center justify-center py-5">
       <UserButton showName />
     </div>
   );
