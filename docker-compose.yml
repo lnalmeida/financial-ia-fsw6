@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: finance-ai-database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finance-ai-fsw6-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+# connection string
+# DATABASE_URL="postgresql://postgres:password@localhost:5432/finance-ai-fsw6-db?schema=public"
