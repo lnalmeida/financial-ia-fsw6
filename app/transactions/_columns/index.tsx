@@ -8,7 +8,8 @@ import {
 } from "@/app/_constants/transactions";
 import { Transaction, TransactionType } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { CircleIcon, PencilIcon, Trash2Icon } from "lucide-react";
+import { CircleIcon, Trash2Icon } from "lucide-react";
+import EditTransactionButton from "../_components/editTransactionButton";
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -22,14 +23,14 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       if (transaction.type === TransactionType.DEPOSIT)
         return (
           <Badge className="bg-muted text-primary hover:bg-muted">
-            <CircleIcon className="fill-primary mr-2" size={10} />
+            <CircleIcon className="mr-2 fill-primary" size={10} />
             Depósito
           </Badge>
         );
       if (transaction.type === TransactionType.EXPENSE)
         return (
-          <Badge className="bg-danger text-danger hover:bg-danger-100 bg-opacity-10 font-bold">
-            <CircleIcon className="fill-danger mr-2" size={10} />
+          <Badge className="hover:bg-danger-100 bg-danger bg-opacity-10 font-bold text-danger">
+            <CircleIcon className="mr-2 fill-danger" size={10} />
             Despesa
           </Badge>
         );
@@ -84,23 +85,16 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "actions",
     header: "Ações",
-    cell: () => (
+    cell: ({ row: { original: transaction } }) => (
       <div className="space-x-1">
-        <Button
-          title="Editar"
-          variant="ghost"
-          size="icon"
-          className="hover: group bg-transparent"
-        >
-          <PencilIcon className="transition-colors group-hover:text-blue-400" />
-        </Button>
+        <EditTransactionButton transaction={transaction} />
         <Button
           title="Excluir"
           variant="ghost"
           size="icon"
           className="hover: group bg-transparent"
         >
-          <Trash2Icon className="group-hover:text-danger transition-colors" />
+          <Trash2Icon className="transition-colors group-hover:text-danger" />
         </Button>
       </div>
     ),
