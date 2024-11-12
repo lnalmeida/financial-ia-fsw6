@@ -40,6 +40,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { z } from "zod";
 import { upsertTransaction } from "../_actions/upsertTransaction";
+import { useToast } from "../_hooks/use-toast";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -87,13 +88,23 @@ const UpsertTransactionDialog = ({
     },
   });
 
+  const { toast } = useToast();
+
   const onSubmit = async (data: FormSchema) => {
     try {
       await upsertTransaction({ ...data, id: transactionId });
       setIsOpen(false);
       form.reset();
+      toast({
+        variant: "success",
+        description: "Transação salva com sucesso.",
+      });
     } catch (e) {
       console.error(e);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao salvar a transação.",
+      });
     }
   };
 

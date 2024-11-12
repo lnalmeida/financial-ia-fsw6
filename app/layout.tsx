@@ -3,6 +3,7 @@ import { Mulish } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import { Toaster } from "./_components/ui/toaster";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
@@ -27,6 +28,7 @@ export default function RootLayout({
           }}
         >
           {children}
+          <Toaster />
         </ClerkProvider>
       </body>
     </html>
