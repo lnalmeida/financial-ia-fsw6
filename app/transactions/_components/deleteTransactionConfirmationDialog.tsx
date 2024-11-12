@@ -29,7 +29,7 @@ const DeleteTransactionConfirmationDialog = ({
       await deleteTransaction({ id: transactionId });
       setIsOpen(false);
       toast({
-        variant: "warning",
+        variant: "success",
         description: "Transação deletada com sucesso.",
       });
     } catch (e) {
@@ -53,10 +53,10 @@ const DeleteTransactionConfirmationDialog = ({
           <DialogHeader>
             <DialogTitle>Deletar transação</DialogTitle>
           </DialogHeader>
-          <h1 className="text-bold text-3xl text-accent-foreground">
+          <h1 className="text-bold text-2xl text-accent-foreground">
             ATENÇÃO!!!
           </h1>
-          <p className="text-bold text-2xl text-accent-foreground">
+          <p className="text-bold text-xl text-accent-foreground">
             Esta operação não pode ser desfeita. Deseja realmente EXCLUIR a
             transação?
           </p>
