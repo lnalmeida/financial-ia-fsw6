@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 
 const NavBar = () => {
   const pathName = usePathname();
+
+  if (pathName === "/login") return null;
+
   return (
     <nav className="flex justify-between">
       {/**Esquerda */}
