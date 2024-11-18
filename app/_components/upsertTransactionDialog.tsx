@@ -51,11 +51,9 @@ interface UpsertTransactionDialogProps {
 
 const formSchema = z.object({
   name: z.string().trim().min(2, { message: "O nome é obrigatório." }).max(50),
-  amount: z
-    .number({
-      required_error: "O valor é obrigatório",
-    })
-    .positive(),
+  amount: z.number({
+    required_error: "O valor é obrigatório",
+  }),
   type: z.nativeEnum(TransactionType, {
     required_error: "O tipo é obrigatório",
   }),
@@ -80,7 +78,7 @@ const UpsertTransactionDialog = ({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues ?? {
       name: "",
-      amount: 5,
+      amount: 0,
       category: TransactionCategory.OTHERS,
       date: new Date(),
       paymentMethod: TransactionPaymentMethod.CASH,
