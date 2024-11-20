@@ -1,16 +1,17 @@
 "use server";
 
+import { TransactionType } from "@prisma/client";
 import { db } from "../_lib/prisma";
+import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
 
-const fetchSummaryData = async (
-  startDate: string | undefined,
-  endDate: string | undefined,
-) => {
+const fetchSummaryData = async (startDate: string, endDate: string) => {
   try {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
     const where = {
       date: {
-        gte: startDate,
-        lt: endDate,
+        gte: start,
+        lte: end,
       },
     };
 
@@ -44,11 +45,34 @@ const fetchSummaryData = async (
 
     const balance = depositsTotal - investmentsTotal - expensesTotal;
 
+    const transactionsTotal = Number(
+      (
+        await db.transaction.aggregate({
+          where,
+          _sum: { amount: true },
+        })
+      )._sum.amount,
+    );
+
+    const typesPercentage: TransactionPercentagePerType = {
+      [TransactionType.DEPOSIT]: Math.round(
+        (Number(depositsTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+      [TransactionType.EXPENSE]: Math.round(
+        (Number(expensesTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+      [TransactionType.INVESTMENT]: Math.ceil(
+        (Number(investmentsTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+      [TransactionType.DONATION]: 0,
+    };
+
     return {
       depositsTotal,
       investmentsTotal,
       expensesTotal,
       balance,
+      typesPercentage,
     };
     console.log("funcionou");
   } catch (error) {

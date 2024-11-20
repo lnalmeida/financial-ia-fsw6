@@ -5,10 +5,6 @@ import {
   WalletIcon,
 } from "lucide-react";
 import SummaryCard from "./SummaryCard";
-// import { db } from "@/app/_lib/prisma";
-// import { DateRange } from "react-day-picker";
-// import { useState } from "react";
-// import { useSearchParams } from "next/navigation";
 
 interface SummaryData {
   depositsTotal: number;
@@ -31,10 +27,10 @@ const SummaryCards = ({ summaryData }: SummaryCardsProps) => {
         size="large"
       />
       {/**Cards Inferiores */}
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-6">
         <SummaryCard
           icon={<PiggyBankIcon size={16} className="mt-3 text-white" />}
-          title="Investido"
+          title="Investimento"
           amount={summaryData?.investmentsTotal}
           size="small"
         />

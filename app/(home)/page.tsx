@@ -8,12 +8,16 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import fetchSummaryData from "../_lib/FetchSummaryData";
+import { revalidatePath } from "next/cache";
+import TransactionPieChart from "./_components/TransactionsPieChart";
+import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
 
 interface SummaryData {
   depositsTotal: number;
   investmentsTotal: number;
   expensesTotal: number;
   balance: number;
+  typesPercentage: TransactionPercentagePerType;
 }
 
 const Home = () => {
@@ -51,12 +55,14 @@ const Home = () => {
     const fetchData = async () => {
       if (dateRange?.from && dateRange?.to) {
         try {
-          const data = await fetchSummaryData(
-            dateRange.from.toISOString(),
-            dateRange.to.toISOString(),
-          );
-          console.log(data);
-          setSummaryData(data);
+          const startDate = dateRange.from.toISOString().split("T")[0];
+          const endDate = dateRange.to.toISOString().split("T")[0];
+          const data = await fetchSummaryData(startDate, endDate);
+          if (data) {
+            console.log(data);
+            setSummaryData(data);
+            revalidatePath("/dashboard");
+          }
         } catch (error) {
           console.error("Erro ao buscar dados:", error);
         }
@@ -64,7 +70,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, [dateRange?.from, dateRange?.to]);
+  }, [dateRange?.from, dateRange?.to, searchParams]);
 
   return (
     <>
@@ -75,9 +81,17 @@ const Home = () => {
             dateRange={dateRange}
             onDateRangeChange={handleDateRangeChange}
           />
-          {/* <MonthSelect /> */}
         </div>
-        <SummaryCards summaryData={summaryData} />
+        <div className="grid h-full grid-cols-[2fr,1fr] overflow-hidden">
+          <div className="flex flex-col gap-6 overflow-hidden">
+            <SummaryCards summaryData={summaryData} />
+            <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
+              <TransactionPieChart pieChartData={summaryData} />
+              <h1>Expenses per category</h1>
+            </div>
+          </div>
+          <div className="w-full">Last Transactions</div>
+        </div>
       </div>
     </>
   );
