@@ -11,6 +11,7 @@ import fetchSummaryData from "../_lib/FetchSummaryData";
 import { revalidatePath } from "next/cache";
 import TransactionPieChart from "./_components/TransactionsPieChart";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
+import { TransactionCategory } from "@prisma/client";
 
 interface SummaryData {
   depositsTotal: number;
@@ -18,6 +19,11 @@ interface SummaryData {
   expensesTotal: number;
   balance: number;
   typesPercentage: TransactionPercentagePerType;
+  categorizedExpenses: Array<{
+    category: TransactionCategory;
+    totalAmount: number;
+    percentage: number;
+  }>;
 }
 
 const Home = () => {
@@ -60,7 +66,14 @@ const Home = () => {
           const data = await fetchSummaryData(startDate, endDate);
           if (data) {
             console.log(data);
-            setSummaryData(data);
+            setSummaryData({
+              ...data,
+              categorizedExpenses: data.categorizedExpenses.map((expense) => ({
+                category: expense.category,
+                totalAmount: Number(expense.totalAmount || 0),
+                percentage: expense.percentage,
+              })),
+            });
             revalidatePath("/dashboard");
           }
         } catch (error) {

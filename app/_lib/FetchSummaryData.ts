@@ -61,11 +61,31 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
       [TransactionType.EXPENSE]: Math.round(
         (Number(expensesTotal || 0) / Number(transactionsTotal)) * 100,
       ),
-      [TransactionType.INVESTMENT]: Math.ceil(
+      [TransactionType.INVESTMENT]: Math.round(
         (Number(investmentsTotal || 0) / Number(transactionsTotal)) * 100,
       ),
       [TransactionType.DONATION]: 0,
     };
+
+    const expensesByCategory = await db.transaction.groupBy({
+      by: ["category"],
+      where: {
+        ...where,
+        type: TransactionType.EXPENSE,
+      },
+
+      _sum: { amount: true },
+    });
+
+    const categorizedExpenses = expensesByCategory.map((expense) => ({
+      category: expense.category,
+      totalAmount: expense._sum.amount,
+      percentage: Math.round(
+        (Number(expense._sum.amount || 0) / expensesTotal) * 100,
+      ),
+    }));
+
+    console.log(expensesByCategory, categorizedExpenses);
 
     return {
       depositsTotal,
@@ -73,6 +93,7 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
       expensesTotal,
       balance,
       typesPercentage,
+      categorizedExpenses,
     };
     console.log("funcionou");
   } catch (error) {
