@@ -13,6 +13,7 @@ import TransactionPieChart from "./_components/TransactionsPieChart";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
 import ExpensesByCategory from "./_components/ExpensesByCategory";
 import TransactionListArea from "./_components/TransactionListArea";
+import { Transaction } from "@prisma/client";
 
 interface SummaryData {
   depositsTotal: number;
@@ -27,6 +28,7 @@ interface SummaryData {
         percentage: number;
       }>
     | undefined;
+  lastTransactions: Transaction[] | undefined;
 }
 
 const Home = () => {
@@ -110,7 +112,9 @@ const Home = () => {
               )}
             </div>
           </div>
-          <TransactionListArea />
+          <TransactionListArea
+            lastTransactions={summaryData?.lastTransactions}
+          />
         </div>
       </div>
     </div>

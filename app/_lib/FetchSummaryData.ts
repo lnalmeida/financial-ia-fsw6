@@ -86,7 +86,14 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
       ),
     }));
 
-    console.log(expensesByCategory, categorizedExpenses);
+    const lastTransactions = await db.transaction.findMany({
+      orderBy: {
+        date: "desc",
+      },
+      take: 10,
+    });
+
+    console.log(expensesByCategory, categorizedExpenses, lastTransactions);
 
     return {
       depositsTotal,
@@ -95,6 +102,7 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
       balance,
       typesPercentage,
       categorizedExpenses,
+      lastTransactions,
     };
     console.log("funcionou");
   } catch (error) {

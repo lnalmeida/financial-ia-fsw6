@@ -28,6 +28,17 @@ export const TRANSACTION_PAYMENT_METHOD_LABELS = {
   PIX: "Pix",
 };
 
+export const TRANSACTION_PAYMENT_METHOD_IMAGES = {
+  BANK_TRANSFER: "/bank-transfer.svg",
+  BANK_SLIP: "/bank-slip.svg",
+  CASH: "/money.svg",
+  CREDIT_CARD: "/credit-card.svg",
+  DEBIT_CARD: "/debit-card.svg",
+  BITCOIN: "/bitcoin.svg",
+  OTHER: "/other.svg",
+  PIX: "/pix.svg",
+};
+
 export const TRANSACTION_TYPE_OPTIONS = [
   {
     value: TransactionType.EXPENSE,
