@@ -11,7 +11,7 @@ import fetchSummaryData from "../_lib/FetchSummaryData";
 import { revalidatePath } from "next/cache";
 import TransactionPieChart from "./_components/TransactionsPieChart";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
-import { TransactionCategory } from "@prisma/client";
+import ExpensesByCategory from "./_components/ExpensesByCategory";
 
 interface SummaryData {
   depositsTotal: number;
@@ -19,11 +19,13 @@ interface SummaryData {
   expensesTotal: number;
   balance: number;
   typesPercentage: TransactionPercentagePerType;
-  categorizedExpenses: Array<{
-    category: TransactionCategory;
-    totalAmount: number;
-    percentage: number;
-  }>;
+  categorizedExpenses:
+    | Array<{
+        category: string;
+        totalAmount: number;
+        percentage: number;
+      }>
+    | undefined;
 }
 
 const Home = () => {
@@ -100,7 +102,11 @@ const Home = () => {
             <SummaryCards summaryData={summaryData} />
             <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
               <TransactionPieChart pieChartData={summaryData} />
-              <h1>Expenses per category</h1>
+              {summaryData && (
+                <ExpensesByCategory
+                  expensesByCategory={summaryData.categorizedExpenses}
+                />
+              )}
             </div>
           </div>
           <div className="w-full">Last Transactions</div>
