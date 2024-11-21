@@ -3,6 +3,7 @@
 import { TransactionType } from "@prisma/client";
 import { db } from "../_lib/prisma";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
+import { TRANSACTION_CATEGORY_LABELS } from "../_constants/transactions";
 
 const fetchSummaryData = async (startDate: string, endDate: string) => {
   try {
@@ -78,7 +79,7 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
     });
 
     const categorizedExpenses = expensesByCategory.map((expense) => ({
-      category: expense.category,
+      category: TRANSACTION_CATEGORY_LABELS[expense.category],
       totalAmount: expense._sum.amount,
       percentage: Math.round(
         (Number(expense._sum.amount || 0) / expensesTotal) * 100,
