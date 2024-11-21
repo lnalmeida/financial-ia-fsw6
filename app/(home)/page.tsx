@@ -12,6 +12,7 @@ import { revalidatePath } from "next/cache";
 import TransactionPieChart from "./_components/TransactionsPieChart";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
 import ExpensesByCategory from "./_components/ExpensesByCategory";
+import TransactionListArea from "./_components/TransactionListArea";
 
 interface SummaryData {
   depositsTotal: number;
@@ -88,7 +89,7 @@ const Home = () => {
   }, [dateRange?.from, dateRange?.to, searchParams]);
 
   return (
-    <>
+    <div className="-mt-14 scale-x-100 scale-y-90 gap-6">
       <div className="space-y-6 p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -109,10 +110,10 @@ const Home = () => {
               )}
             </div>
           </div>
-          <div className="w-full">Last Transactions</div>
+          <TransactionListArea />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
