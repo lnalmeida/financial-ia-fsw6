@@ -4,12 +4,22 @@ import { TransactionType } from "@prisma/client";
 import { db } from "../_lib/prisma";
 import { TransactionPercentagePerType } from "../types/TransactionPercentagePerType";
 import { TRANSACTION_CATEGORY_LABELS } from "../_constants/transactions";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const fetchSummaryData = async (startDate: string, endDate: string) => {
   try {
+    const { userId } = auth();
+
+    if (!userId) {
+      throw new Error("User is not logged!");
+      redirect("/login");
+    }
+
     const start = new Date(startDate);
     const end = new Date(endDate);
     const where = {
+      userId: { equals: userId },
       date: {
         gte: start,
         lte: end,
