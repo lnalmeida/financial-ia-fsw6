@@ -91,31 +91,27 @@ const Home = () => {
   }, [dateRange?.from, dateRange?.to, searchParams]);
 
   return (
-    <div className="-mt-14 scale-x-100 scale-y-90 gap-6">
-      <div className="space-y-6 p-6">
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <DatePickerWithRange
-            dateRange={dateRange}
-            onDateRangeChange={handleDateRangeChange}
-          />
-        </div>
-        <div className="grid h-full grid-cols-[2fr,1fr] overflow-hidden">
-          <div className="flex flex-col gap-6 overflow-hidden">
-            <SummaryCards summaryData={summaryData} />
-            <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
-              <TransactionPieChart pieChartData={summaryData} />
-              {summaryData && (
-                <ExpensesByCategory
-                  expensesByCategory={summaryData.categorizedExpenses}
-                />
-              )}
-            </div>
+    <div className="flex h-full flex-col gap-6 overflow-hidden p-6">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <DatePickerWithRange
+          dateRange={dateRange}
+          onDateRangeChange={handleDateRangeChange}
+        />
+      </div>
+      <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
+        <div className="flex flex-col gap-6 overflow-hidden">
+          <SummaryCards summaryData={summaryData} />
+          <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
+            <TransactionPieChart pieChartData={summaryData} />
+            {summaryData && (
+              <ExpensesByCategory
+                expensesByCategory={summaryData.categorizedExpenses}
+              />
+            )}
           </div>
-          <TransactionListArea
-            lastTransactions={summaryData?.lastTransactions}
-          />
         </div>
+        <TransactionListArea lastTransactions={summaryData?.lastTransactions} />
       </div>
     </div>
   );

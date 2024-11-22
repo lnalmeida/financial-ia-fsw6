@@ -28,9 +28,11 @@ export default function RootLayout({
             baseTheme: dark,
           }}
         >
-          <NavBar />
-          {children}
-          <Toaster />
+          <div className="flex h-full flex-col overflow-hidden">
+            <NavBar />
+            {children}
+            <Toaster />
+          </div>
         </ClerkProvider>
       </body>
     </html>
