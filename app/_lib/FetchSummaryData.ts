@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const fetchSummaryData = async (startDate: string, endDate: string) => {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
 
     if (!userId) {
       throw new Error("User is not logged!");
