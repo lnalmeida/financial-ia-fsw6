@@ -97,6 +97,7 @@ const fetchSummaryData = async (startDate: string, endDate: string) => {
     }));
 
     const lastTransactions = await db.transaction.findMany({
+      where,
       orderBy: {
         date: "desc",
       },

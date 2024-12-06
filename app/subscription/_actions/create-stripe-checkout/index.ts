@@ -33,8 +33,8 @@ export const createStripeCheckout = async () => {
         quantity: 1,
       },
     ],
-    success_url: "http://localhost:3000/subscription",
-    cancel_url: "http://localhost:3000/subscription",
+    success_url: "http://localhost:3000/subscription/success",
+    cancel_url: "http://localhost:3000/subscription/error",
     // success_url: process.env.STRIPE_SUCCESS_URL,
     // cancel_url: process.env.STRIPE_CANCEL_URL,
   });
